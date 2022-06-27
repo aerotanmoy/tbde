@@ -1,12 +1,13 @@
 # tbde
-True B DE. Requirement
-Scripts 
-process.sh -- Orchestrates the ingestion pipeline which performs the following steps:
-1) Extract Layer : manipulation of raw files for inclusion of symbol in data
-2) Load Layer :  insertion of manipulated file to postgres Landing table --> public.derivatives_rw
-3) Transform Layer : Generation of timestamp and expiry_date columns in staging table --> public.derivatives_stg
-copyscript.sql -- Script to ingest manipulated raw data to public.derivatives_rw
-transformscript.sql -- populates the public.derivatives_stg to Generate timestamp and expiry_date columns
+**True B DE Requirement**
+
+Scripts :
+A) **process**.sh -- Orchestrates the ingestion pipeline which performs the following steps:
+      1) **Extract Layer** : manipulation of raw files for inclusion of symbol in data
+      2) **Load Layer** :  insertion of manipulated file to postgres Landing table --> public.derivatives_rw
+      3) **Transform Layer** : Generation of timestamp and expiry_date columns in staging table --> public.derivatives_stg
+B) **copyscript**.sql -- Script to ingest manipulated raw data to public.derivatives_rw
+C) **transformscript**.sql -- populates the public.derivatives_stg to Generate timestamp and expiry_date columns
 
 Execution Command :
 sh /home/tbde/script/process.sh &
