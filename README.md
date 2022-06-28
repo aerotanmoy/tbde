@@ -39,6 +39,31 @@ CREATE INDEX
 Duration for  File Transformation : 1144 sec
 Overall  Duration : 1545 sec
 
+Updated Logs post Ingestion Optimisation:
+Logs: 
+Duration for File Manipulation : 112 sec 
+/home/tbde/script 
+TRUNCATE TABLE 
+ALTER TABLE 
+SET 
+SET 
+SET 
+SET 
+COPY 87990079 
+Duration for File Ingestion : 223 sec 
+/home/tbde/script Overall Duration : 335 sec 
+SET 
+SET 
+SET 
+SET 
+TRUNCATE TABLE
+ALTER TABLE 
+DROP INDEX
+INSERT 0 87990079 
+CREATE INDEX 
+Duration for File Transformation : 539 sec 
+Overall Duration : 974 sec 
+
 
 Tasks:
 Performance Optimization to reduce ingestion <5 min.
@@ -55,7 +80,7 @@ Yet to try since everything is licensed product
 -- Current disk io is not performance compliant. Usage of better instance.  
 -- Also increase in number of vcpu nodes to have more parallel compute power will reduce overall ingestion time
 
--- Another possible approach is redesigning the architecture by forking based on filetypes and have parallel ingestion flows. --> Effort required
+-- Another possible approach is redesigning the architecture by forking based on filetypes and have parallel ingestion flows. However parallel writes are. currently not being supported in Baremetal Postgres
 
 
 1)Calculate the relative change in ltp between NIFTY22JANFUT and BANKNIFTY22JANFUT symbols for an input duration. 
@@ -74,10 +99,11 @@ lead(exectimes,1)  over(partition by symbol,DATE(exectimes) ORDER BY DATE(execti
  
 
 2) Writing a query to create day wise OHLC candles from tick by tick data
+-- Pending
 
 3) Create Visualisation in a stack of your choice which plots percentage change of ltp,ltq and oi 
 -- Pending
 
 4) Write a script to ensure data quality, the script should find any instrument that has missing data for more than 1 hour in a day
-
+-- Pending
 
