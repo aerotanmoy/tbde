@@ -6,6 +6,7 @@ trg_dir=/home/tbde/test/truedata-historical-data/transformed_files-JAN-22
 src_fl_cnt=$(du $src_dir --inodes | cut -f1)
 src_fl_cnt_rt=`expr $src_fl_cnt - 1`
 
+rm -r $trg_dir
 mkdir -p $trg_dir 
 
 
@@ -54,6 +55,41 @@ do
   fi
 done 
 
+rm /home/tbde/test/truedata-historical-data/transformed_files-JAN-22_merged/*
+
+#cat /home/tbde/test/truedata-historical-data/transformed_files-JAN-22/*.csv > /home/tbde/test/truedata-historical-data/transformed_files-JAN-22_merged/merged.csv 
+
+for f in /home/tbde/test/truedata-historical-data/transformed_files-JAN-22/*.csv; do cat "${f}" >> /home/tbde/test/truedata-historical-data/transformed_files-JAN-22_merged/merged.csv; done
+
+
+echo "Duration for  File Manipulation : $((($(date +%s)-$start))) sec"
+
 cd -
 
-echo "Duration: $((($(date +%s)-$start)/60)) min $((($(date +%s)-$start))) sec"
+cd $trg_dir
+
+start_bulk=`date +%s`
+
+
+psqlcnt=$(pgrep psql | wc -l)
+
+for i in /home/tbde/test/truedata-historical-data/transformed_files-JAN-22_merged/*.csv; do
+
+sudo -u postgres psql postgres -f /home/tbde/script/copyscript.sql -v v1="$i"
+
+done
+
+
+echo "Duration for  File Ingestion : $((($(date +%s)-$start_bulk))) sec"
+
+cd -
+
+echo "Overall  Duration : $((($(date +%s)-$start))) sec"
+
+start_transform=`date +%s`
+
+sudo -u postgres psql postgres -f /home/tbde/script/transformscript.sql 
+
+echo "Duration for  File Transformation : $((($(date +%s)-$start_transform))) sec"
+
+echo "Overall  Duration : $((($(date +%s)-$start))) sec"
