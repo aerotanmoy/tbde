@@ -99,7 +99,22 @@ lead(exectimes,1)  over(partition by symbol,DATE(exectimes) ORDER BY DATE(execti
  
 
 2) Writing a query to create day wise OHLC candles from tick by tick data
--- Pending
+SELECT DISTINCT m.symbol,
+	   t1.ltp AS open,
+       m.high,
+       m.low,
+       t2.ltp as close,
+       open_time
+FROM (SELECT symbol,
+			 MIN(extract(epoch from exectimes)) AS min_time,
+             MAX(extract(epoch from exectimes)) AS max_time,
+             MIN(ltp) as low,
+             MAX(ltp) as high,
+             FLOOR(extract(epoch from exectimes)) as open_time
+      from public.derivatives_stg
+      GROUP BY symbol,open_time) m
+JOIN public.derivatives_stg t1 ON extract(epoch from t1.exectimes) = min_time and t1.symbol = m.symbol
+JOIN public.derivatives_stg t2 ON extract(epoch from t2.exectimes) = max_time and t2.symbol = m.symbol ;
 
 3) Create Visualisation in a stack of your choice which plots percentage change of ltp,ltq and oi 
 -- Pending
